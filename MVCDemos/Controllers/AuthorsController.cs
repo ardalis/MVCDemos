@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using MVCDemos.Interfaces;
+using MVCDemos.Filters;
 
 namespace MVCDemos.Controllers
 {
@@ -43,10 +44,8 @@ namespace MVCDemos.Controllers
                 return BadRequest(ModelState);
             }
             await _authorRepository.AddAsync(author);
-            //return CreatedAtAction("Get", new { Id = author.Id }, author);
-            //return CreatedAtRoute("GetAuthor", new { Id = author.Id }, author);
-            return CreatedAtRoute(new { Id = author.Id }, author);
-           // return Ok(author);
+            return CreatedAtRoute("GetAuthor", new { Id = author.Id }, 
+                author);
         }
 
         // PUT api/authors/5
