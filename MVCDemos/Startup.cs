@@ -10,6 +10,7 @@ using MVCDemos.Models;
 using MVCDemos.Services;
 using MVCDemos.Interfaces;
 using MVCDemos.Infrastructure.Data;
+using System;
 
 namespace MVCDemos
 {
@@ -39,8 +40,8 @@ namespace MVCDemos
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase());
-//                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            //                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -84,6 +85,39 @@ namespace MVCDemos
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public void ConfigureTesting(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
+        {
+            this.Configure(app, env, loggerFactory);
+
+            PopulateTestData(app);
+        }
+
+        private void PopulateTestData(IApplicationBuilder app)
+        {
+            var dbContext = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
+            var authors = dbContext.Authors;
+            foreach (var author in authors)
+            {
+                dbContext.Remove(author);
+            }
+            dbContext.SaveChanges();
+            dbContext.Authors.Add(new Author()
+            {
+                Id = 1,
+                FullName = "Steve Smith",
+                TwitterAlias = "ardalis"
+            });
+            dbContext.Authors.Add(new Author()
+            {
+                Id = 2,
+                FullName = "Mark Miller",
+                TwitterAlias = "millermark"
+            });
+            dbContext.SaveChanges();
         }
     }
 }
