@@ -1,0 +1,20 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = $"Contact Info For {Model.Name}";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div class="form-group">
+    <div class="col-md-2">Blog</div>
+    <div class="col-md-10">
+        <a href="@Model.BlogUrl">@Model.BlogName</a>
+    </div>
+    <div class="col-md-2">Twitter</div>
+    <div class="col-md-10">
+        <a href="https://twitter.com/@Model.Twitter">@Model.Twitter</a>
+    </div>
+</div>
+
+
+
