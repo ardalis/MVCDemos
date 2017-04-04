@@ -20,7 +20,8 @@ namespace MVCDemos.Infrastructure.Data
 
         public async Task<Author> GetByIdAsync(int id)
         {
-            return await _dbContext.Authors.FirstOrDefaultAsync(a => a.Id == id);
+            return await _dbContext.Authors.FindAsync(id);
+            //return await _dbContext.Authors.FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<List<Author>> ListAsync()
