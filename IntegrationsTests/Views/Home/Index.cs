@@ -40,7 +40,8 @@ namespace IntegrationsTests.Views.Home
             var builder = new WebHostBuilder()
                 .UseContentRoot(contentRoot)
                 .ConfigureServices(InitializeServices)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseApplicationInsights();
             var server = new TestServer(builder);
             var client = server.CreateClient();
 
